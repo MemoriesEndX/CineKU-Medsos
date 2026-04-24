@@ -6,7 +6,7 @@ import { AriaTextFieldProps, useTextField } from 'react-aria';
 import SvgClose from '@/svg_components/Close';
 import Button from './Button';
 
-interface TextareaProps extends AriaTextFieldProps {
+interface TextareaProps extends AriaTextFieldProps<HTMLTextAreaElement> {
   className?: string;
   Icon?: (props: SVGProps<SVGSVGElement>) => JSX.Element;
 }

@@ -20,7 +20,7 @@ import { Popover } from './ui/Popover';
 import { TextAreaMentionItem } from './TextAreaMentionItem';
 import { HighlightedMentionsAndHashTags } from './HighlightedMentionsAndHashTags';
 
-interface TextAreaWithMentionsAndHashTagsProps extends AriaTextFieldProps {
+interface TextAreaWithMentionsAndHashTagsProps extends AriaTextFieldProps<HTMLTextAreaElement> {
   content: string;
   setContent: Dispatch<SetStateAction<string>>;
   placeholder: string;
@@ -228,7 +228,7 @@ export function TextAreaWithMentionsAndHashTags({
           })}
           className={cn(
             'absolute top-0 block w-full resize-none overflow-hidden break-words bg-transparent text-transparent caret-foreground outline-none',
-            rest.errorMessage && 'rounded-sm ring-2 ring-red-900 ring-offset-4 placeholder:text-red-900',
+            Boolean(rest.errorMessage) && 'rounded-sm ring-2 ring-red-900 ring-offset-4 placeholder:text-red-900',
           )}
         />
         <p className="whitespace-pre-wrap break-words bg-transparent">

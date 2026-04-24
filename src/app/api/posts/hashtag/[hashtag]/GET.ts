@@ -8,20 +8,21 @@ import { selectPost } from '@/lib/prisma/selectPost';
 import { GetPost } from '@/types/definitions';
 import { toGetPost } from '@/lib/prisma/toGetPost';
 import { getServerUser } from '@/lib/getServerUser';
-import { usePostsSorter } from '@/hooks/usePostsSorter';
+import { getPostsSorter } from '@/hooks/usePostsSorter';
 
-export async function GET(request: Request, { params }: { params: { hashtag: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ hashtag: string }> }) {
   /**
    * The [user] will only be used to check whether the
    * user requesting the Posts have like them or not.
    */
   const [user] = await getServerUser();
-  const { filters, limitAndOrderBy } = usePostsSorter(request.url);
+  const { filters, limitAndOrderBy } = getPostsSorter(request.url);
+  const { hashtag } = await params;
 
   const res = await prisma.post.findMany({
     where: {
       content: {
-        search: params.hashtag,
+        search: hashtag,
       },
       ...filters,
     },

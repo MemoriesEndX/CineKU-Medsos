@@ -4,7 +4,7 @@
  * posted by the user and their followed users.
  */
 
-import { usePostsSorter } from '@/hooks/usePostsSorter';
+import { getPostsSorter } from '@/hooks/usePostsSorter';
 import { getServerUser } from '@/lib/getServerUser';
 import prisma from '@/lib/prisma/prisma';
 import { selectPost } from '@/lib/prisma/selectPost';
@@ -12,11 +12,12 @@ import { toGetPost } from '@/lib/prisma/toGetPost';
 import { NextResponse } from 'next/server';
 import { GetPost } from '@/types/definitions';
 
-export async function GET(request: Request, { params }: { params: { userId: string } }) {
-  const { filters, limitAndOrderBy } = usePostsSorter(request.url);
+export async function GET(request: Request, { params }: { params: Promise<{ userId: string }> }) {
+  const { filters, limitAndOrderBy } = getPostsSorter(request.url);
 
   const [user] = await getServerUser();
-  if (!user || params.userId !== user.id) return NextResponse.json({}, { status: 401 });
+  const { userId } = await params;
+  if (!user || userId !== user.id) return NextResponse.json({}, { status: 401 });
 
   // Get the IDs of the user's followed users
   const following = await prisma.follow.findMany({

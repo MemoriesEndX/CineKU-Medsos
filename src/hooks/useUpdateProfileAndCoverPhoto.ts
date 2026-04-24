@@ -8,7 +8,7 @@ import { fileNameToUrl } from '@/lib/s3/fileNameToUrl';
 import { getServerUser } from '@/lib/getServerUser';
 
 const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
-export async function useUpdateProfileAndCoverPhoto({
+export async function updateProfileAndCoverPhoto({
   request,
   userIdParam,
   toUpdate,

@@ -1,15 +1,17 @@
 import { getProfile } from '../../getProfile';
 import { About } from './About';
 
-export async function generateMetadata({ params }: { params: { username: string } }) {
-  const profile = await getProfile(params.username);
+export async function generateMetadata({ params }: { params: Promise<{ username: string }> }) {
+  const { username } = await params;
+  const profile = await getProfile(username);
   return {
     title: `About | ${profile?.name}` || 'About',
   };
 }
 
-export default async function Page({ params }: { params: { username: string } }) {
-  const profile = await getProfile(params.username);
+export default async function Page({ params }: { params: Promise<{ username: string }> }) {
+  const { username } = await params;
+  const profile = await getProfile(username);
   if (!profile) return null;
 
   return (

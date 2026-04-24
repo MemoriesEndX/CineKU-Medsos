@@ -1,9 +1,12 @@
 import { GetVisualMedia } from '@/types/definitions';
+import prisma from '@/lib/prisma/prisma';
+import { fileNameToUrl } from '@/lib/s3/fileNameToUrl';
 import { getProfile } from '../../getProfile';
 import { Gallery } from './Gallery';
 
-export async function generateMetadata({ params }: { params: { username: string } }) {
-  const profile = await getProfile(params.username);
+export async function generateMetadata({ params }: { params: Promise<{ username: string }> }) {
+  const { username } = await params;
+  const profile = await getProfile(username);
   return {
     title: `Photos | ${profile?.name}` || 'Photos',
   };
@@ -11,13 +14,25 @@ export async function generateMetadata({ params }: { params: { username: string 
 
 async function getVisualMedia(username: string) {
   const profile = await getProfile(username);
-  const res = await fetch(`${process.env.URL}/api/users/${profile?.id}/photos`, { cache: 'no-store' });
+  if (!profile) return [];
 
-  if (!res.ok) throw new Error("Error fetching user's photos.");
-  return (await res.json()) as GetVisualMedia[];
+  const visualMedia = await prisma.visualMedia.findMany({
+    where: {
+      userId: profile.id,
+    },
+    orderBy: {
+      id: 'desc',
+    },
+  });
+
+  return visualMedia.map((item) => ({
+    type: item.type,
+    url: fileNameToUrl(item.fileName)!,
+  })) as GetVisualMedia[];
 }
 
-export default async function Page({ params }: { params: { username: string } }) {
-  const visualMedia = await getVisualMedia(params.username);
+export default async function Page({ params }: { params: Promise<{ username: string }> }) {
+  const { username } = await params;
+  const visualMedia = await getVisualMedia(username);
   return <Gallery visualMedia={visualMedia} />;
 }

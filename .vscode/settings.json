@@ -27,5 +27,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"
   },
-  "tailwindCSS.classAttributes": ["class", "className", "iconClassName"]
+  "tailwindCSS.classAttributes": ["class", "className", "iconClassName"],
+  "WillLuke.nextjs.addTypesOnSave": true,
+  "WillLuke.nextjs.hasPrompted": true
 }

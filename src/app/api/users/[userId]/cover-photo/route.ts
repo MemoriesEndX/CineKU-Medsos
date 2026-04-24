@@ -1,9 +1,10 @@
-import { useUpdateProfileAndCoverPhoto } from '@/hooks/useUpdateProfileAndCoverPhoto';
+import { updateProfileAndCoverPhoto } from '@/hooks/useUpdateProfileAndCoverPhoto';
 
-export async function POST(request: Request, { params }: { params: { userId: string } }) {
-  return useUpdateProfileAndCoverPhoto({
+export async function POST(request: Request, { params }: { params: Promise<{ userId: string }> }) {
+  const { userId } = await params;
+  return updateProfileAndCoverPhoto({
     request,
     toUpdate: 'coverPhoto',
-    userIdParam: params.userId,
+    userIdParam: userId,
   });
 }

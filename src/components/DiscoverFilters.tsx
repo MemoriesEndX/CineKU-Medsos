@@ -36,19 +36,19 @@ export function DiscoverFilters() {
     [pathname, router, searchParams],
   );
   const onSelectGender = useCallback(
-    (value: Key) => {
+    (value: Key | null) => {
       updateParams({
         key: 'gender',
-        value: value as TDiscoverFilters['gender'],
+        value: value ? (value as TDiscoverFilters['gender']) : undefined,
       });
     },
     [updateParams],
   );
   const onSelectRelationshipStatus = useCallback(
-    (value: Key) => {
+    (value: Key | null) => {
       updateParams({
         key: 'relationship-status',
-        value: value as TDiscoverFilters['relationship-status'],
+        value: value ? (value as TDiscoverFilters['relationship-status']) : undefined,
       });
     },
     [updateParams],

@@ -1,4 +1,4 @@
-import parse, { Element, domToReact } from 'html-react-parser';
+import parse, { DOMNode, Element, domToReact } from 'html-react-parser';
 import DOMPurify from 'dompurify';
 import Link from 'next/link';
 
@@ -31,7 +31,7 @@ export function HighlightedMentionsAndHashTags({ text, shouldAddLinks }: { text:
       if (domNode instanceof Element && domNode.attribs && domNode.attribs.href && domNode.children)
         return (
           <Link href={domNode.attribs.href} className="link">
-            {domToReact(domNode.children)}
+            {domToReact(domNode.children as DOMNode[])}
           </Link>
         );
       return domNode;

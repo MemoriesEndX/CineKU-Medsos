@@ -33,7 +33,7 @@ export function CalendarGrid({ state, ...props }: CalendarGridProps) {
                 <CalendarCell key={i} state={state} date={date} />
               ) : (
                 // eslint-disable-next-line react/no-array-index-key
-                <td key={i} />
+                <td key={i} aria-label="Empty calendar cell" />
               ),
             )}
           </tr>

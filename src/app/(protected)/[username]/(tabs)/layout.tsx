@@ -8,10 +8,11 @@ export default async function Layout({
   params,
 }: {
   children: React.ReactNode;
-  params: { username: string };
+  params: Promise<{ username: string }>;
 }) {
   const [user] = await getServerUser();
-  const profile = await getProfile(params.username);
+  const { username } = await params;
+  const profile = await getProfile(username);
   if (!profile) return <p>This user does not exist or may have changed their username.</p>;
   const isOwnProfile = profile.id === user?.id;
 

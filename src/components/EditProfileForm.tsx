@@ -12,7 +12,7 @@ import { parseDate } from '@internationalized/date';
 import { useSessionUserData } from '@/hooks/useSessionUserData';
 import { useSessionUserDataMutation } from '@/hooks/mutations/useSessionUserDataMutation';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useMemo } from 'react';
+import { Key, useCallback, useEffect, useMemo } from 'react';
 import { GenericLoading } from './GenericLoading';
 import { DatePicker } from './ui/DatePicker';
 import { Textarea } from './ui/Textarea';
@@ -206,7 +206,7 @@ export function EditProfileForm({ redirectTo }: { redirectTo?: string }) {
                 label="Gender"
                 name="gender"
                 selectedKey={value || null}
-                onSelectionChange={(key) => onChange(key || null)}
+                onSelectionChange={(key: Key | null) => onChange(key || null)}
                 errorMessage={error?.message}
                 ref={ref}
                 Icon={Other}>
@@ -227,7 +227,7 @@ export function EditProfileForm({ redirectTo }: { redirectTo?: string }) {
                 label="Relationship Status"
                 name="relationshipStatus"
                 selectedKey={value || null}
-                onSelectionChange={(key) => onChange(key || null)}
+                onSelectionChange={(key: Key | null) => onChange(key || null)}
                 errorMessage={error?.message}
                 Icon={Heart}
                 ref={ref}>

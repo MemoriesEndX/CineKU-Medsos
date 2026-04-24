@@ -71,18 +71,15 @@ export function UserAuthForm({ mode }: { mode: 'login' | 'register' }) {
         ...prev,
         [provider]: true,
       }));
-      const signInResult = await signIn(provider, {
+      await signIn(provider, {
         callbackUrl,
       });
       setLoading((prev) => ({
         ...prev,
         [provider]: false,
       }));
-      if (signInResult?.error) {
-        showToast({ type: 'error', title: 'Something went wrong' });
-      }
     },
-    [callbackUrl, showToast],
+    [callbackUrl],
   );
 
   return (
